@@ -22,3 +22,8 @@ This program will use the webcam of the computer to recognize images and face in
   this works well with python 3.10 and higher versions
 3. install opencv, numpy.
   open a new terminal: pip install package-name
+
+##How it works
+1. Go to Attendance.py and run the python file
+the webcam of your computer/laptop should open.
+if you show it an image of one of the three pre-trained persons [Elon Musk, Bill Gates, Jack Ma] it should be able to tell you that there is a match.
