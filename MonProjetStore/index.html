@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affichage Produits</title>
+</head>
+<body>
+     <!-- Contenu principal -->
+    <div class="container mt-4" id="zone_principale_Store"></div>
+
+    <script>
+        class Produit {
+            constructor(id, nom, prix, categoris, imageUrl, description) {
+                this.id = id;
+                this.nom = nom;
+                this.prix = prix;
+                this.categoris = categoris;
+                this.imageUrl = imageUrl;
+                this.description = description;
+            }
+        }
+
+        var produits = [
+            new Produit(1, "Chemise femme", "100$", "Chemise femme", "image1.png", "Description de produit 1"),
+            new Produit(2, "Robe élégante", "20$", "Jean", "image2.png", "Description de produit 2"),
+        ];
+
+        function afficherProduit() {
+            const container = document.getElementById("zone_principale_Store");
+
+            for (var i = 0; i < produits.length; i++) {
+                const produit = produits[i];
+                const produitDiv = document.createElement("div");
+                produitDiv.id = `produit-${produit.id}`;
+
+                produitDiv.innerHTML = `
+                    <h3>${produit.nom}</h3>
+                    <img src="${produit.imageUrl}" alt="${produit.nom}" width="100">
+                    <p>Prix: ${produit.prix}</p>
+                    <p>Catégorie: ${produit.categoris}</p>
+                    <p>Description: ${produit.description}</p>
+                `;
+
+                console.log(produitDiv);  // Affiche le div dans la console pour vérifier sa création
+                container.appendChild(produitDiv);
+            }
+        }
+
+        // Assurez-vous que le DOM est chargé avant d'exécuter le script
+        document.addEventListener("DOMContentLoaded", function() {
+            afficherProduit();
+        });
+    </script>
+</body>
+</html> 
+

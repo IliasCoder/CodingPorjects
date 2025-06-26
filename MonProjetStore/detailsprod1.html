@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Détails du Produit</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 80%;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .product-image {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .price {
+      font-size: 1.5em;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .details {
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+
+    .details b {
+      color: #555;
+    }
+
+    .sizes {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .size {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .size:hover {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .size.selected {
+      background-color: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+
+    .add-to-cart-btn {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background-color: #28a745;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: #218838;
+    }
+
+    .message {
+      margin-top: 15px;
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Détails du Produit</h1>
+    <img src="image1.png" alt="Robe été" class="product-image">
+    
+    <div class="details">
+      <p>Vintage Gown Printing Round Puff Gown Ladies Bandage Knitted A Party Neck Mesh Arm Stitching Elegant Women's Line Dress</p>
+      <p class="price">372.00 DH</p>
+
+      <p><b>Couleur :</b> Noir</p>
+
+      <p><b>Description :</b> Robe élégante avec manches en tulle, idéale pour les soirées.</p>
+
+      <p><b>Tailles disponibles :</b></p>
+      <div class="sizes" id="sizeOptions">
+        <span class="size">M</span>
+        <span class="size">L</span>
+        <span class="size">XL</span>
+        <span class="size">XXL</span>
+      </div>
+
+      <!-- Bouton Ajouter au Panier -->
+      <button class="add-to-cart-btn" id="addToCartBtn">Ajouter au panier</button>
+
+      <!-- Message de confirmation -->
+      <div class="message" id="message"></div>
+    </div>
+  </div>
+
+  <script>
+    const sizeElements = document.querySelectorAll('.size');
+    let selectedSize = null;
+
+    sizeElements.forEach(size => {
+      size.addEventListener('click', () => {
+        // Retirer la classe "selected" des autres
+        sizeElements.forEach(s => s.classList.remove('selected'));
+        // Ajouter la classe "selected" à l'élément cliqué
+        size.classList.add('selected');
+        selectedSize = size.textContent;
+      });
+    });
+
+    document.getElementById('addToCartBtn').addEventListener('click', () => {
+      const messageDiv = document.getElementById('message');
+      if (selectedSize) {
+        messageDiv.textContent = `La taille ${selectedSize} a été ajoutée au panier avec succès !`;
+        messageDiv.style.color = 'green';
+      } else {
+        messageDiv.textContent = "Veuillez sélectionner une taille avant d'ajouter au panier.";
+        messageDiv.style.color = 'red';
+      }
+    });
+  </script>
+
+</body>
+</html>
+
+

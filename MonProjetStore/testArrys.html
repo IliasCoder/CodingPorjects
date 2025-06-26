@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ma Boutique</title>
+    <style>
+        .produit {
+            padding: 10px;
+            margin: 5px;
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Produits déjà présents ailleurs dans la page -->
+    <div id="prod1" class="produit">🍎 Produit 1</div>
+    <div id="prod2" class="produit">🍌 Produit 2</div>
+    <div id="prod3" class="produit">🍇 Produit 3</div>
+    <div id="prod4" class="produit">🍓 Produit 4</div>
+    <div id="prod5" class="produit">🍍 Produit 5</div>
+
+    <!-- Zone où on veut déplacer les produits -->
+    <h2>Zone principale de la boutique :</h2>
+    <div id="zone_principale_Store" style="border: 2px dashed blue; padding: 10px;"></div>
+
+    <!-- Ton script JavaScript -->
+    <script>
+        window.onload = function () {
+            var MaStructureDonnees = ["prod1", "prod2", "prod3", "prod4", "prod5"];
+            var Zone_principale_parant = document.getElementById("zone_principale_Store");
+
+            for (var i = 0; i < MaStructureDonnees.length; i++) {
+                var elemnt = document.getElementById(MaStructureDonnees[i]);
+
+                if (elemnt) { // Vérifie que l'élément existe
+                    elemnt.style.border = "1px solid red";
+                    Zone_principale_parant.appendChild(elemnt);
+                } else {
+                    console.warn("Élément introuvable :", MaStructureDonnees[i]);
+                }
+            }
+        };
+    </script>
+</body>
+</html>
