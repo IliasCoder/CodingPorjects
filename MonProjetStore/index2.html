@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyStore - Boutique en ligne</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Variables pour les couleurs et la cohérence */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2c3e50;
+  --accent-color: #e74c3c;
+  --light-gray: #f8f9fa;
+  --dark-gray: #343a40;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fcfcfc;
+}
+
+.navbar-brand {
+  /* Le texte sera semi-gras, un peu plus épais que la normale.§ */
+  font-weight: 600; 
+  /* !important force cette */
+  color: var(--secondary-color) !important;  
+  /* 	Utilise le modèle Flexbox pour organiser les éléments enfants en ligne. */
+  display: flex;
+  align-items: center;
+  /*  gap : 10px  Ajoute un espace de 10 pixels entre les éléments enfants. */
+  gap: 10px;
+}
+
+.nav-link {
+  position: relative;
+  margin: 0 5px;
+  color: var(--secondary-color) !important;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--primary-color);
+  transition: var(--transition);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.cart-icon {
+  position: relative;
+  font-size: 1.5rem;
+}
+
+.cart-icon .badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--accent-color);
+  color: white;
+  border-radius: 50%;
+  padding: 0.25em 0.6em;
+  font-size: 0.75rem;
+}
+
+/* Amélioration de la zone de recherche */
+.search-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 1px solid #dee2e6;
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.search-section h5 {
+  color: var(--secondary-color);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-input {
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 12px 15px;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.filter-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.15);
+  transform: translateY(-1px);
+}
+
+.form-label.fw-bold {
+  color: var(--secondary-color);
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.btn-outline-secondary {
+  border: 2px solid #6c757d;
+  color: #6c757d;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Filter notification styling */
+.alert {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.alert-success {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  color: #155724;
+}
+
+/* Night mode adjustments for filters */
+.night-mode .search-section {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  border-color: #444;
+}
+
+.night-mode .filter-input {
+  background-color: #23272b;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+.night-mode .filter-input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+.night-mode .form-label.fw-bold {
+  color: #e0e0e0;
+}
+
+.night-mode .btn-outline-secondary {
+  border-color: #666;
+  color: #ccc;
+}
+
+.night-mode .btn-outline-secondary:hover {
+  background-color: #666;
+  border-color: #666;
+  color: #fff;
+}
+
+/* Cartes de produits améliorées */
+.product-card {
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: var(--shadow);
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition);
+  position: relative;
+  border: none;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.product-image-container {
+  position: relative;
+  overflow: hidden;
+  height: 250px;
+}
+
+.product-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
+}
+
+.product-info {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.product-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: var(--secondary-color);
+}
+
+.product-price {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.add-to-cart {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 0;
+  font-weight: 500;
+  transition: var(--transition);
+  width: 100%;
+}
+
+.add-to-cart:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+/* Badge pour les produits populaires ou en promotion */
+.product-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: var(--accent-color);
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  z-index: 1;
+}
+
+/* Footer amélioré */
+.footer {
+  background-color: var(--light-gray);
+  border-radius: 40px 40px 0 0;
+  padding: 50px 0 30px;
+  margin-top: 50px;
+  border-top: 1px solid #ddd;
+}
+
+.footer-title {
+  color: var(--secondary-color);
+  font-weight: 600;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+}
+
+.footer-title::after {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 2px;
+  bottom: -10px;
+  left: 0;
+  background-color: var(--primary-color);
+}
+
+.footer-link {
+  color: var(--dark-gray);
+  transition: var(--transition);
+  display: block;
+  margin-bottom: 10px;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: var(--primary-color);
+  transform: translateX(5px);
+}
+
+.footer-icon {
+  margin-right: 10px;
+  color: var(--primary-color);
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  transition: var(--transition);
+}
+
+.social-icon:hover {
+  transform: translateY(-5px);
+  background-color: var(--secondary-color);
+}
+
+.copyright {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  color: var(--dark-gray);
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .product-card {
+    height: 380px;
+  }
+  
+  .footer {
+    border-radius: 30px 30px 0 0;
+  }
+}
+
+.wishlist-btn {
+  border: none;
+  background: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, box-shadow 0.2s;
+  color: #e74c3c;
+  font-size: 1.3rem;
+  margin-left: 8px;
+  box-shadow: none;
+  outline: none;
+}
+.wishlist-btn:hover, .wishlist-btn.active {
+  background: rgba(231, 76, 60, 0.12);
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.08);
+  color: #c0392b;
+}
+.wishlist-btn:active {
+  background: rgba(231, 76, 60, 0.22);
+  color: #a93226;
+}
+.wishlist-btn i {
+  margin: 0;
+  font-size: 1.3rem;
+  pointer-events: none;
+}
+  </style>
+  <!-- Votre CSS personnalisé (insérer le CSS de l'artifact précédent ici) -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body.night-mode {
+      background-color: #181a1b !important;
+      color: #e0e0e0 !important;
+    }
+    .night-mode .navbar, .night-mode .footer, .night-mode .search-section, .night-mode .product-card {
+      background-color: #23272b !important;
+      color: #e0e0e0 !important;
+      box-shadow: none;
+    }
+    .night-mode .navbar-brand, .night-mode .nav-link, .night-mode .footer-link, .night-mode .footer-title, .night-mode .product-title, .night-mode .product-price {
+      color: #e0e0e0 !important;
+    }
+    .night-mode .product-card {
+      border: 1px solid #333 !important;
+    }
+    .night-mode .add-to-cart, .night-mode .filter-btn {
+      background-color: #444 !important;
+      color: #fff !important;
+    }
+    .night-mode .add-to-cart:hover, .night-mode .filter-btn:hover {
+      background-color: #666 !important;
+    }
+    .night-mode .product-badge {
+      background-color: #444 !important;
+      color: #fff !important;
+    }
+    .night-mode .social-icon {
+      background-color: #444 !important;
+      color: #fff !important;
+    }
+    .night-mode .social-icon:hover {
+      background-color: #222 !important;
+    }
+    .night-mode .cart-icon .badge {
+      background-color: #e74c3c !important;
+    }
+    .night-mode input, .night-mode .form-control, .night-mode .filter-input {
+      background-color: #23272b !important;
+      color: #e0e0e0 !important;
+      border: 1px solid #444 !important;
+    }
+    .night-mode .copyright {
+      color: #aaa !important;
+    }
+    #nightModeToggle {
+      position: relative;
+      overflow: visible;
+      ;
+    }
+    #nightModeToggle::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 3px;
+  background: #3498db; /* Bluish color */
+  border-radius: 2px;
+  width: 0;
+  transition: width 0.3s;
+}
+    #nightModeToggle:hover::after {
+      width: 100%;
+
+    }
+    /* Only show one icon in the night mode button */
+    #nightModeToggle .night-icon { display: inline; }
+    #nightModeToggle .day-icon { display: none; }
+    body.night-mode #nightModeToggle .night-icon { display: none; }
+    body.night-mode #nightModeToggle .day-icon { display: inline; !important;}
+  </style>
+</head>
+<body>
+
+  <!-- Navbar améliorée -->,
+   <!--  "navbar-expand-lg" signifie qu'elle se transforme en menu hamburger sur les écrans
+      plus petits que "large". -->
+  <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+    <div class="container">
+      <a class="navbar-brand" href="index2.html">
+        <img src="logo.png" alt="logo" width="40" height="40" class="d-inline-block align-text-top">
+        Uniq'Style
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="accueil.html">Accueil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Services.html">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Propos.html">À propos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="admin.html">Admin</a>
+          </li> 
+          
+
+          <li class="nav-item">
+            <a class="nav-link cart-icon" href="panier.html">
+              <i class="bi bi-cart3"></i>
+              <span class="badge" id="cart-count">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link position-relative" href="#" id="wishlistNavBtn" title="Voir la wishlist" data-bs-toggle="modal" data-bs-target="#wishlistModal">
+              <i class="bi bi-heart"></i>
+              <span class="badge bg-danger position-absolute top-0 start-100 translate-middle p-1" id="wishlist-count" style="font-size:0.8em;">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <button id="nightModeToggle" class="btn night-mode-btn" title="Activer/Désactiver le mode nuit">
+              <i class="bi bi-moon-fill night-icon"></i>
+              <i class="bi bi-sun-fill day-icon"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Filter Section -->
+  <div class="container mt-4">
+    <div class="search-section">
+      <h4 class="mb-4 fw-bold text-primary"><i class="bi bi-funnel me-2"></i>Filtres avancés</h4>
+      <div class="row g-3 align-items-end">
+        <div class="col-md-3 col-12">
+          <label for="sizeFilter" class="form-label fw-bold">Taille</label>
+          <select id="sizeFilter" class="form-select filter-input w-100">
+            <option value="">Toutes les tailles</option>
+          </select>
+        </div>
+        <div class="col-md-3 col-12">
+          <label for="colorFilter" class="form-label fw-bold">Couleur</label>
+          <select id="colorFilter" class="form-select filter-input w-100">
+            <option value="">Toutes les couleurs</option>
+          </select>
+        </div>
+        <div class="col-md-3 col-12">
+          <label for="prixMin" class="form-label fw-bold">Prix minimum</label>
+          <input type="number" id="prixMin" class="form-control filter-input w-100" placeholder="">
+        </div>
+        <div class="col-md-3 col-12">
+          <label for="prixMax" class="form-label fw-bold">Prix maximum</label>
+          <input type="number" id="prixMax" class="form-control filter-input w-100" placeholder="">
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 d-flex flex-wrap gap-2">
+          <button class="btn filter-btn me-2" onclick="fct_filtre_intervalle_prix()">
+            <i class="bi bi-funnel-fill me-2"></i>Filtrer par prix
+          </button>
+          <button class="btn btn-outline-secondary" onclick="clearAllFilters()">
+            <i class="bi bi-x-circle me-2"></i>Effacer les filtres
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zone principale des produits -->
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0">Nos Produits</h2>
+    </div>
+    <div class="row g-4" id="zone_principale_Store">
+      <!-- Les produits seront générés ici via JavaScript -->
+    </div>
+  </div>
+  
+  <!-- Footer amélioré -->
+  <footer id="contact" class="footer">
+    <div class="container">
+      <div class="row">
+        <!-- Colonne 1 : Infos MyStore -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <h5 class="footer-title">MyStore Info</h5>
+          <a href="propos_de_nous.html" class="footer-link">
+            <i class="bi bi-info-circle footer-icon"></i>À propos de nous
+          </a>
+          <a href="Responsabilité_sociale.html" class="footer-link">
+            <i class="bi bi-heart footer-icon"></i>Responsabilité sociale
+          </a>
+          <a href="Blog.html" class="footer-link">
+            <i class="bi bi-newspaper footer-icon"></i>Blog
+          </a>
+          <a href="Carrières.html" class="footer-link">
+            <i class="bi bi-briefcase footer-icon"></i>Carrières
+          </a>
+          <a href="Nos_engagements_écolos.html" class="footer-link">
+            <i class="bi bi-tree footer-icon"></i>Nos engagements écolos
+          </a>
+        </div>
+  
+        <!-- Colonne 2 : Aide -->
+        <div class="col-lg-4 col-md-6 mb-4">
+          <h5 class="footer-title">Aide</h5>
+          <a href="Livraison.html" class="footer-link">
+            <i class="bi bi-truck footer-icon"></i>Livraison
+          </a>
+          <a href="Retour_Remboursement.html" class="footer-link">
+            <i class="bi bi-arrow-return-left footer-icon"></i>Retour & Remboursement
+          </a>
+          <a href="Suivi_de_commande.html" class="footer-link">
+            <i class="bi bi-box-seam footer-icon"></i>Suivi de commande
+          </a>
+          <a href="#" class="footer-link">
+            <i class="bi bi-rulers footer-icon"></i>Guide des tailles
+          </a>
+          <a href="Adhésion_MyStore.html" class="footer-link">
+            <i class="bi bi-star footer-icon"></i>Adhésion MyStore+
+          </a>
+        </div>
+  
+        <!-- Colonne 3 : Contact & Paiement -->
+        <div class="col-lg-4 col-md-12 mb-4">
+          <h5 class="footer-title">Contact & Paiement</h5>
+          <p class="footer-link">
+            <i class="bi bi-telephone-fill footer-icon"></i>06 78 90 34 87
+          </p>
+          <p class="footer-link">
+            <i class="bi bi-envelope-fill footer-icon"></i>contact@mystore.com
+          </p>
+          <p class="footer-link">
+            <i class="bi bi-credit-card-2-back footer-icon"></i>Paiement sécurisé
+          </p>
+          
+          <div class="social-icons">
+            <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
+            <a href="#" class="social-icon"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; 2025 MyStore. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- JavaScript pour la fonctionnalité -->
+  
+  
+
+<!-- Wishlist Modal -->
+<div class="modal fade" id="wishlistModal" tabindex="-1" aria-labelledby="wishlistModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="wishlistModalLabel"><i class="bi bi-heart-fill text-danger me-2"></i>Ma Wishlist</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="wishlistModalBody">
+        <!-- Wishlist products will be rendered here by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="StructureDonnees.js"></script>
+    
+<script src="script.js"></script>
+</body>
+</html>
